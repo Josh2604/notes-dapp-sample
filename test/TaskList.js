@@ -70,4 +70,29 @@ describe("Task list contract contract", function() {
     await deploy.completeTask(1);
     await expect(deploy.completeTask(1)).to.be.revertedWith("Task is already completed");
   })
+
+  it("Test, Delete task", async function(){
+    const { deploy } = await loadFixture(deployContract);
+    const _description = "test description";
+
+    const description = ethers.utils.formatBytes32String(_description);
+    await deploy.addTask(description);
+    await deploy.completeTask(1);
+
+    const task = await deploy.getTask(1)
+    expect(task[1]).to.equals(true)
+    await deploy.deleteTask(1);
+  })
+
+  it("Test, Error deleting task", async function(){
+    const { deploy } = await loadFixture(deployContract);
+    const _description = "test description";
+
+    const description = ethers.utils.formatBytes32String(_description);
+    await deploy.addTask(description);
+
+    const task = await deploy.getTask(1)
+    expect(task[1]).to.equals(false)
+    await expect(deploy.deleteTask(1)).to.be.revertedWith("Can only delete completed tasks");
+  })
 })
