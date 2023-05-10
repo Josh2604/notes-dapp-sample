@@ -6,7 +6,7 @@ async function main() {
 
   await note.deployed();
 
-  console.log(`Note dApp deployed on ${note.address}`)
+  console.log(`Notes dApp deployed on ${note.address}`)
 }
 
 main().catch((error) => {
